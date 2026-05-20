@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioPage Pro — Escolha seu plano</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card: #13131a;
+    --border: #1e1e2e;
+    --accent: #7c5cfc;
+    --accent2: #c084fc;
+    --text: #f0f0f8;
+    --muted: #7070a0;
+    --highlight: #a78bfa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(124,92,252,0.15) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+  }
+
+  h1 span {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 17px;
+    font-weight: 300;
+    max-width: 420px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .plans { grid-template-columns: 1fr; }
+  }
+
+  .plan {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px;
+    position: relative;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .plan:nth-child(1) { animation-delay: 0.1s; }
+  .plan:nth-child(2) { animation-delay: 0.2s; }
+  .plan:nth-child(3) { animation-delay: 0.3s; }
+  .plan:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .plan:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 0 40px rgba(124,92,252,0.15);
+  }
+
+  .plan.popular {
+    border-color: var(--accent);
+    background: linear-gradient(145deg, #13131a, #18102e);
+  }
+
+  .badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .plan-period {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .plan-price {
+    margin-bottom: 8px;
+  }
+
+  .price-currency {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--muted);
+    vertical-align: top;
+    line-height: 1.8;
+  }
+
+  .price-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+
+  .price-cents {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .price-period {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .savings {
+    display: inline-block;
+    background: rgba(124,92,252,0.15);
+    color: var(--highlight);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 24px;
+  }
+
+  .features {
+    list-style: none;
+    margin-bottom: 28px;
+  }
+
+  .features li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #b0b0d0;
+    margin-bottom: 10px;
+  }
+
+  .features li::before {
+    content: '✓';
+    width: 20px;
+    height: 20px;
+    background: rgba(124,92,252,0.2);
+    color: var(--highlight);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    text-align: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--text);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--highlight);
+    background: rgba(124,92,252,0.08);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+    box-shadow: 0 4px 24px rgba(124,92,252,0.35);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 32px rgba(124,92,252,0.5);
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .footer span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 10px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">🔗</div>
+      <div class="logo-text">BioPage Pro</div>
+    </div>
+    <h1>Escolha seu <span>plano</span></h1>
+    <p class="subtitle">Crie seu link na bio profissional e conquiste mais clientes nas redes sociais.</p>
+  </div>
+
+  <div class="plans">
+
+    <div class="plan">
+      <div class="plan-period">Mensal</div>
+      <div class="plan-price">
+        <span class="price-currency">R$</span><span class="price-value">19</span><span class="price-cents">,90</span>
+      </div>
+      <div class="price-period">por mês</div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>Editor completo</li>
+        <li>Links ilimitados</li>
+        <li>Temas personalizáveis</li>
+        <li>Suporte por e-mail</li>
+      </ul>
+      <a href="https://pay.kiwify.com.br/GDmGD1D" class="btn btn-outline">Assinar agora</a>
+    </div>
+
+    <div class="plan">
+      <div class="plan-period">Trimestral</div>
+      <div class="plan-price">
+        <span class="price-currency">R$</span><span class="price-value">49</span><span class="price-cents">,90</span>
+      </div>
+      <div class="price-period">a cada 3 meses</div>
+      <div class="savings">Economia de 16%</div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>Editor completo</li>
+        <li>Links ilimitados</li>
+        <li>Temas personalizáveis</li>
+        <li>Suporte por e-mail</li>
+      </ul>
+      <a href="https://pay.kiwify.com.br/GCBcQBg" class="btn btn-outline">Assinar agora</a>
+    </div>
+
+    <div class="plan popular">
+      <div class="badge">✦ Mais popular</div>
+      <div class="plan-period">Semestral</div>
+      <div class="plan-price">
+        <span class="price-currency">R$</span><span class="price-value">89</span><span class="price-cents">,90</span>
+      </div>
+      <div class="price-period">a cada 6 meses</div>
+      <div class="savings">Economia de 25%</div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>Editor completo</li>
+        <li>Links ilimitados</li>
+        <li>Temas personalizáveis</li>
+        <li>Suporte prioritário</li>
+      </ul>
+      <a href="https://pay.kiwify.com.br/8ndCFid" class="btn btn-primary">Assinar agora</a>
+    </div>
+
+    <div class="plan">
+      <div class="plan-period">Anual</div>
+      <div class="plan-price">
+        <span class="price-currency">R$</span><span class="price-value">180</span><span class="price-cents">,90</span>
+      </div>
+      <div class="price-period">por ano</div>
+      <div class="savings">Economia de 24%</div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>Editor completo</li>
+        <li>Links ilimitados</li>
+        <li>Temas personalizáveis</li>
+        <li>Suporte prioritário</li>
+      </ul>
+      <a href="https://pay.kiwify.com.br/d7OrPoR" class="btn btn-outline">Assinar agora</a>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>🔒 Pagamento seguro</span>
+    <span>↩️ Garantia de 7 dias</span>
+    <span>⚡ Acesso imediato</span>
+  </div>
+</div>
+</body>
+</html>
