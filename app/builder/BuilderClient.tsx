@@ -8,9 +8,7 @@ import { Preview } from "@/components/builder/Preview";
 import { generateHtmlContent } from "@/lib/templates/base-template";
 import { useBuilderStore } from "@/store/useBuilderStore";
 
-const EXPECTED_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN ?? "";
-const KIWIFY_CHECKOUT_URL =
-  process.env.NEXT_PUBLIC_KIWIFY_CHECKOUT_URL || "https://pay.kiwify.com.br/SEU-LINK-AQUI";
+const KIWIFY_CHECKOUT_URL = "/biopage-planos.html";
 
 function buildReadme(name: string): string {
   return `BioLink de ${name || "cliente"}
@@ -33,7 +31,7 @@ OPÇÃO 3 — Vercel
 2. Envie o index.html
 3. Publique
 
-Arquivo gerado pelo BioLink Generator.`;
+Arquivo gerado pelo BioPage Pro.`;
 }
 
 function slugify(value: string) {
@@ -55,47 +53,64 @@ export function BuilderClient({ accessToken }: { accessToken: string }) {
   const [authorized, setAuthorized] = useState(false);
   const [tokenInput, setTokenInput] = useState(accessToken);
   const [tokenError, setTokenError] = useState("");
+  const [isValidating, setIsValidating] = useState(false);
 
   useEffect(() => {
-    if (!EXPECTED_TOKEN) {
-      setAuthorized(true);
-      setChecking(false);
-      return;
-    }
-
+    // Verifica se já tem sessão salva
     try {
       const saved = sessionStorage.getItem("biolink_access");
-      if (accessToken === EXPECTED_TOKEN || saved === EXPECTED_TOKEN) {
-        sessionStorage.setItem("biolink_access", EXPECTED_TOKEN);
+      if (saved === "authorized") {
         setAuthorized(true);
+        setChecking(false);
+        return;
       }
-    } catch {
-      if (accessToken === EXPECTED_TOKEN) setAuthorized(true);
-    }
+    } catch {}
 
-    setChecking(false);
+    // Se veio token pela URL, valida automaticamente
+    if (accessToken) {
+      validateToken(accessToken).then((valid) => {
+        if (valid) {
+          try { sessionStorage.setItem("biolink_access", "authorized"); } catch {}
+          setAuthorized(true);
+        }
+        setChecking(false);
+      });
+    } else {
+      setChecking(false);
+    }
   }, [accessToken]);
+
+  async function validateToken(token: string): Promise<boolean> {
+    try {
+      const res = await fetch("/api/validate-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: token.trim().toUpperCase() }),
+      });
+      const data = await res.json();
+      return data.valid === true;
+    } catch {
+      return false;
+    }
+  }
 
   const canExport = useMemo(() => profile.name.trim().length > 0, [profile.name]);
 
-  function handleTokenSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleTokenSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setIsValidating(true);
+    setTokenError("");
 
-    if (!EXPECTED_TOKEN) {
+    const valid = await validateToken(tokenInput);
+
+    if (valid) {
+      try { sessionStorage.setItem("biolink_access", "authorized"); } catch {}
       setAuthorized(true);
-      return;
+    } else {
+      setTokenError("Token inválido ou expirado. Confira o e-mail recebido após a compra.");
     }
 
-    if (tokenInput.trim() === EXPECTED_TOKEN) {
-      try {
-        sessionStorage.setItem("biolink_access", EXPECTED_TOKEN);
-      } catch {}
-      setAuthorized(true);
-      setTokenError("");
-      return;
-    }
-
-    setTokenError("Senha/token incorreto. Confira o acesso recebido após a compra.");
+    setIsValidating(false);
   }
 
   async function handleExport() {
@@ -133,19 +148,24 @@ export function BuilderClient({ accessToken }: { accessToken: string }) {
           </div>
           <h1 className="mt-6 text-center text-2xl font-black">Acesso ao editor</h1>
           <p className="mt-3 text-center text-sm leading-6 text-slate-300">
-            Digite a senha/token enviado após a compra para liberar o criador de Link na Bio.
+            Digite o token enviado por e-mail após a compra para acessar o editor.
           </p>
 
           <form onSubmit={handleTokenSubmit} className="mt-7 space-y-3">
             <input
               value={tokenInput}
               onChange={(event) => setTokenInput(event.target.value)}
-              placeholder="Digite sua senha/token"
-              className="w-full rounded-2xl border border-white/10 bg-white px-4 py-4 text-center text-base font-black text-slate-950 outline-none ring-yellow-300 transition placeholder:text-slate-400 focus:ring-4"
+              placeholder="Digite seu token (ex: ABCD-1234-WXYZ-5678)"
+              className="w-full rounded-2xl border border-white/10 bg-white px-4 py-4 text-center text-base font-black text-slate-950 outline-none ring-yellow-300 transition placeholder:font-normal placeholder:text-slate-400 focus:ring-4"
             />
             {tokenError ? <p className="text-center text-sm font-bold text-red-300">{tokenError}</p> : null}
-            <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-yellow-400 px-5 py-4 text-base font-black text-slate-950 transition hover:bg-yellow-300">
-              Entrar no editor <ShieldCheck size={18} />
+            <button
+              type="submit"
+              disabled={isValidating}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-yellow-400 px-5 py-4 text-base font-black text-slate-950 transition hover:bg-yellow-300 disabled:opacity-50"
+            >
+              {isValidating ? <Loader2 size={18} className="animate-spin" /> : <ShieldCheck size={18} />}
+              {isValidating ? "Verificando..." : "Entrar no editor"}
             </button>
           </form>
 
@@ -153,13 +173,13 @@ export function BuilderClient({ accessToken }: { accessToken: string }) {
             <Link href="/" className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-white/15">
               Voltar
             </Link>
-            <a href={KIWIFY_CHECKOUT_URL} target="_blank" rel="noopener noreferrer" className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-white/15">
+            <a href={KIWIFY_CHECKOUT_URL} className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-white/15">
               Comprar acesso
             </a>
           </div>
 
           <p className="mt-5 text-center text-xs leading-5 text-slate-500">
-            Dica: para modo teste, deixe NEXT_PUBLIC_ACCESS_TOKEN vazio no arquivo .env.local.
+            Não recebeu o e-mail? Verifique a caixa de spam.
           </p>
         </section>
       </main>
@@ -174,7 +194,7 @@ export function BuilderClient({ accessToken }: { accessToken: string }) {
             <Link href="/" className="inline-flex items-center gap-2 rounded-xl px-2 py-2 text-sm font-bold text-slate-500 transition hover:bg-slate-100 hover:text-slate-900">
               <Home size={16} /> Início
             </Link>
-            <h1 className="text-sm font-black text-slate-900 sm:text-base">🔗 BioLink Generator</h1>
+            <h1 className="text-sm font-black text-slate-900 sm:text-base">🔗 BioPage Pro</h1>
           </div>
           <div className="flex gap-2">
             <button
