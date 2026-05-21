@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Globe2, Instagram, MessageCircle, Music, ShoppingBag, Smartphone, Star, Youtube, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle2, Instagram, MessageCircle, Music, ShoppingBag, Smartphone, Star, Youtube, Zap } from "lucide-react";
 
-const WHATSAPP_URL = "https://wa.me/5585992717070?text=Ol%C3%A1!%20Quero%20meu%20link%20na%20bio%20profissional%20%F0%9F%94%97";
+const WHATSAPP_URL = "https://wa.me/5585992717070?text=Oi!%20Vi%20o%20BioPage%20Pro%20e%20me%20interessei.%20Quero%20saber%20mais!";
 
 const benefits = [
   { emoji: "⚡", title: "Pronto em minutos", desc: "Você me manda seus links e eu entrego sua página no ar. Sem complicação nenhuma." },
@@ -35,7 +35,14 @@ export default function Home() {
         .card-glow { box-shadow: 0 0 40px rgba(250,204,21,0.08); }
         .btn-primary { background: linear-gradient(135deg, #facc15, #fb923c); color: #080810; font-weight: 900; transition: all 0.2s; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(250,204,21,0.3); }
+        .promo-bar { background: linear-gradient(135deg, #facc15, #fb923c); }
+        .price-old { text-decoration: line-through; opacity: 0.5; }
       `}</style>
+
+      {/* BARRA DE PROMOÇÃO */}
+      <div className="promo-bar px-4 py-2 text-center text-xs font-black text-slate-950">
+        🔥 PROMOÇÃO LIMITADA — De R$57,90 por apenas R$47 · Vagas limitadas!
+      </div>
 
       {/* NAV */}
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-6">
@@ -54,8 +61,9 @@ export default function Home() {
         </div>
 
         <div className="mx-auto max-w-4xl">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-yellow-400/20 bg-yellow-400/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-yellow-300">
-            ✨ Link na bio profissional · Apenas R$47
+          {/* SELO DE PROMOÇÃO */}
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-red-500/20 border border-red-400/30 px-4 py-2 text-xs font-black uppercase tracking-widest text-red-300">
+            🔥 Promoção por tempo limitado
           </div>
 
           <h1 className="font-display text-5xl font-extrabold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
@@ -68,7 +76,14 @@ export default function Home() {
             Você me manda seus links — Instagram, WhatsApp, YouTube, loja — e eu entrego uma página profissional com seu link pronto para usar. <strong className="text-white">Sem precisar fazer nada.</strong>
           </p>
 
-          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          {/* PREÇO */}
+          <div className="mt-8 flex items-center justify-center gap-3">
+            <span className="price-old text-xl text-white/40">R$57,90</span>
+            <span className="font-display text-5xl font-extrabold gradient-text">R$47</span>
+            <span className="rounded-full bg-red-500 px-3 py-1 text-xs font-black text-white">19% OFF</span>
+          </div>
+
+          <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <a href={WHATSAPP_URL} className="btn-primary inline-flex items-center gap-2 rounded-2xl px-8 py-4 text-base">
               Quero meu link agora <ArrowRight size={18} />
             </a>
@@ -77,7 +92,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <p className="mt-4 text-sm text-white/30">Pagamento seguro · Entrega rápida · Satisfação garantida</p>
+          <p className="mt-4 text-sm text-white/30">Pagamento via Pix · Entrega rápida · Satisfação garantida</p>
         </div>
 
         {/* MOCKUP */}
@@ -102,12 +117,11 @@ export default function Home() {
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-xs font-bold uppercase tracking-widest text-yellow-400">Como funciona</p>
           <h2 className="font-display mt-3 text-4xl font-extrabold sm:text-5xl">Simples assim.</h2>
-
           <div className="mt-12 grid gap-4 sm:grid-cols-3">
             {[
-              { n: "1", title: "Me chama", desc: "Entre em contato e me manda seus links e informações." },
+              { n: "1", title: "Me chama", desc: "Entre em contato pelo WhatsApp e me manda seus links e informações." },
               { n: "2", title: "Eu crio", desc: "Monto sua página personalizada com seu visual e todos os seus links." },
-              { n: "3", title: "Você usa", desc: "Recebe o link pronto e já coloca no seu Instagram." },
+              { n: "3", title: "Você usa", desc: "Recebe o link pronto e já coloca no seu Instagram. Simples!" },
             ].map((step) => (
               <div key={step.n} className="rounded-3xl border border-white/8 bg-white/5 p-6 text-left">
                 <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-yellow-400 font-display text-lg font-extrabold text-slate-950">
@@ -126,7 +140,7 @@ export default function Home() {
         <div className="mx-auto max-w-5xl">
           <div className="text-center">
             <p className="text-xs font-bold uppercase tracking-widest text-yellow-400">O que você recebe</p>
-            <h2 className="font-display mt-3 text-4xl font-extrabold sm:text-5xl">Tudo incluso no R$47.</h2>
+            <h2 className="font-display mt-3 text-4xl font-extrabold sm:text-5xl">Tudo incluso nos R$47.</h2>
           </div>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {benefits.map((b) => (
@@ -185,20 +199,26 @@ export default function Home() {
       {/* CTA FINAL */}
       <section className="px-5 py-20">
         <div className="mx-auto max-w-2xl rounded-[2rem] border border-yellow-400/20 bg-yellow-400/5 p-10 text-center card-glow">
-          <div className="text-4xl">🔗</div>
-          <h2 className="font-display mt-4 text-4xl font-extrabold sm:text-5xl">
-            Seu link na bio<br />por apenas <span className="gradient-text">R$47</span>
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-red-500/20 border border-red-400/30 px-4 py-1.5 text-xs font-black text-red-300">
+            🔥 Promoção por tempo limitado
+          </div>
+          <h2 className="font-display mt-2 text-4xl font-extrabold sm:text-5xl">
+            Garanta agora<br />por apenas <span className="gradient-text">R$47</span>
           </h2>
+          <div className="mt-3 flex items-center justify-center gap-2">
+            <span className="price-old text-lg text-white/40">R$57,90</span>
+            <span className="rounded-full bg-red-500 px-3 py-1 text-xs font-black text-white">19% OFF</span>
+          </div>
           <p className="mx-auto mt-4 max-w-md text-base leading-7 text-white/60">
             Entrega rápida. Sem complicação. Você só precisa me mandar seus links.
           </p>
           <a href={WHATSAPP_URL} className="btn-primary mt-8 inline-flex items-center gap-2 rounded-2xl px-8 py-4 text-base">
             Quero meu link agora <ArrowRight size={18} />
           </a>
-          <div className="mt-6 flex items-center justify-center gap-6 text-xs text-white/30">
-            <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-green-400" /> Pagamento seguro</span>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-white/30">
+            <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-green-400" /> Pagamento via Pix</span>
             <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-green-400" /> Entrega rápida</span>
-            <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-green-400" /> Garantia de 7 dias</span>
+            <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-green-400" /> Satisfação garantida</span>
           </div>
         </div>
       </section>
