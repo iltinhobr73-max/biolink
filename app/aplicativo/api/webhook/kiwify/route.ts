@@ -42,10 +42,7 @@ export async function POST(req: NextRequest) {
       const expiresAt = Date.now() + 31 * 24 * 60 * 60 * 1000;
 
       await redis.set(`token:${token}`, JSON.stringify({
-        email,
-        name,
-        expiresAt,
-        createdAt: Date.now(),
+        email, name, expiresAt, createdAt: Date.now(),
       }), { ex: 31 * 24 * 60 * 60 });
 
       await redis.set(`email:${email}`, token, { ex: 31 * 24 * 60 * 60 });
@@ -64,7 +61,7 @@ export async function POST(req: NextRequest) {
               <h1 style="color: #f0f0f8; margin-top: 16px;">BioPage Pro</h1>
             </div>
             <p style="color: #b0b0d0;">Olá, <strong style="color: #f0f0f8;">${name}</strong>!</p>
-            <p style="color: #b0b0d0;">Sua compra foi confirmada! Aqui está seu token de acesso ao editor:</p>
+            <p style="color: #b0b0d0;">Sua compra foi confirmada! Aqui está seu token de acesso:</p>
             <div style="background: #13131a; border: 1px solid #1e1e2e; border-radius: 12px; padding: 24px; text-align: center; margin: 24px 0;">
               <p style="color: #7070a0; font-size: 12px; margin: 0 0 8px;">SEU TOKEN DE ACESSO</p>
               <p style="color: #a78bfa; font-size: 28px; font-weight: bold; letter-spacing: 4px; margin: 0;">${token}</p>
