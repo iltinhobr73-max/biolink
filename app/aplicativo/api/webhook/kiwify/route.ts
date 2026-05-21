@@ -56,25 +56,18 @@ export async function POST(req: NextRequest) {
         subject: "✅ Seu acesso ao BioPage Pro está pronto!",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0f; color: #f0f0f8; padding: 40px; border-radius: 16px;">
-            <div style="text-align: center; margin-bottom: 32px;">
-              <div style="display: inline-block; background: linear-gradient(135deg, #7c5cfc, #c084fc); padding: 16px; border-radius: 16px; font-size: 32px;">🔗</div>
-              <h1 style="color: #f0f0f8; margin-top: 16px;">BioPage Pro</h1>
-            </div>
+            <h1 style="color: #f0f0f8; text-align: center;">🔗 BioPage Pro</h1>
             <p style="color: #b0b0d0;">Olá, <strong style="color: #f0f0f8;">${name}</strong>!</p>
-            <p style="color: #b0b0d0;">Sua compra foi confirmada! Aqui está seu token de acesso:</p>
-            <div style="background: #13131a; border: 1px solid #1e1e2e; border-radius: 12px; padding: 24px; text-align: center; margin: 24px 0;">
-              <p style="color: #7070a0; font-size: 12px; margin: 0 0 8px;">SEU TOKEN DE ACESSO</p>
+            <p style="color: #b0b0d0;">Sua compra foi confirmada! Seu token de acesso:</p>
+            <div style="background: #13131a; border-radius: 12px; padding: 24px; text-align: center; margin: 24px 0;">
               <p style="color: #a78bfa; font-size: 28px; font-weight: bold; letter-spacing: 4px; margin: 0;">${token}</p>
             </div>
             <div style="text-align: center; margin: 32px 0;">
-              <a href="${builderUrl}" style="background: linear-gradient(135deg, #7c5cfc, #c084fc); color: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 16px;">
+              <a href="${builderUrl}" style="background: linear-gradient(135deg, #7c5cfc, #c084fc); color: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: bold;">
                 Acessar o editor →
               </a>
             </div>
-            <p style="color: #7070a0; font-size: 13px; text-align: center;">
-              Guarde este e-mail! Você vai precisar do token para acessar o editor.<br/>
-              Acesso válido por 31 dias a partir de hoje.
-            </p>
+            <p style="color: #7070a0; font-size: 13px; text-align: center;">Acesso válido por 31 dias.</p>
           </div>
         `,
       });
