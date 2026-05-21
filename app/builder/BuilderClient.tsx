@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Download, Home, Loader2, LockKeyhole, RotateCcw, ShieldCheck } from "lucide-react";
+import { Download, Home, Loader2, LockKeyhole, RotateCcw, ShieldCheck, Unlock } from "lucide-react";
 import { Sidebar } from "@/components/builder/Sidebar";
 import { Preview } from "@/components/builder/Preview";
 import { generateHtmlContent } from "@/lib/templates/base-template";
@@ -50,13 +50,14 @@ export function BuilderClient({ accessToken }: { accessToken: string }) {
   const { hasHydrated, profile, resetStore } = store;
   const [isExporting, setIsExporting] = useState(false);
   const [checking, setChecking] = useState(true);
-  const [authorized, setAuthorized] = useState(false);
+  const [authorized, setAuthorized] = useState(false); // true = pode baixar
   const [tokenInput, setTokenInput] = useState(accessToken);
   const [tokenError, setTokenError] = useState("");
   const [isValidating, setIsValidating] = useState(false);
+  const [showTokenPanel, setShowTokenPanel] = useState(false);
 
   useEffect(() => {
-    // Verifica se já tem sessão salva
+    // Verifica se já tem sessão salva (comprou antes)
     try {
       const saved = sessionStorage.getItem("biolink_access");
       if (saved === "authorized") {
@@ -106,6 +107,7 @@ export function BuilderClient({ accessToken }: { accessToken: string }) {
     if (valid) {
       try { sessionStorage.setItem("biolink_access", "authorized"); } catch {}
       setAuthorized(true);
+      setShowTokenPanel(false);
     } else {
       setTokenError("Token inválido ou expirado. Confira o e-mail recebido após a compra.");
     }
@@ -139,53 +141,7 @@ export function BuilderClient({ accessToken }: { accessToken: string }) {
     );
   }
 
-  if (!authorized) {
-    return (
-      <main className="grid min-h-screen place-items-center bg-[radial-gradient(circle_at_top,rgba(250,204,21,.22),transparent_35%),linear-gradient(135deg,#020617,#0f172a)] px-4 py-10 text-white">
-        <section className="w-full max-w-md rounded-[2rem] border border-white/10 bg-white/10 p-7 shadow-2xl backdrop-blur">
-          <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-yellow-400 text-slate-950 shadow-lg shadow-yellow-400/25">
-            <LockKeyhole size={26} />
-          </div>
-          <h1 className="mt-6 text-center text-2xl font-black">Acesso ao editor</h1>
-          <p className="mt-3 text-center text-sm leading-6 text-slate-300">
-            Digite o token enviado por e-mail após a compra para acessar o editor.
-          </p>
-
-          <form onSubmit={handleTokenSubmit} className="mt-7 space-y-3">
-            <input
-              value={tokenInput}
-              onChange={(event) => setTokenInput(event.target.value)}
-              placeholder="Digite seu token (ex: ABCD-1234-WXYZ-5678)"
-              className="w-full rounded-2xl border border-white/10 bg-white px-4 py-4 text-center text-base font-black text-slate-950 outline-none ring-yellow-300 transition placeholder:font-normal placeholder:text-slate-400 focus:ring-4"
-            />
-            {tokenError ? <p className="text-center text-sm font-bold text-red-300">{tokenError}</p> : null}
-            <button
-              type="submit"
-              disabled={isValidating}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-yellow-400 px-5 py-4 text-base font-black text-slate-950 transition hover:bg-yellow-300 disabled:opacity-50"
-            >
-              {isValidating ? <Loader2 size={18} className="animate-spin" /> : <ShieldCheck size={18} />}
-              {isValidating ? "Verificando..." : "Entrar no editor"}
-            </button>
-          </form>
-
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <Link href="/" className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-white/15">
-              Voltar
-            </Link>
-            <a href={KIWIFY_CHECKOUT_URL} className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-white/15">
-              Comprar acesso
-            </a>
-          </div>
-
-          <p className="mt-5 text-center text-xs leading-5 text-slate-500">
-            Não recebeu o e-mail? Verifique a caixa de spam.
-          </p>
-        </section>
-      </main>
-    );
-  }
-
+  // ─── EDITOR (teste grátis ou autorizado) ───────────────────────────────────
   return (
     <div className="flex min-h-screen flex-col bg-slate-100">
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 px-3 py-3 backdrop-blur sm:px-5">
@@ -204,17 +160,67 @@ export function BuilderClient({ accessToken }: { accessToken: string }) {
             >
               <RotateCcw size={15} /> Resetar
             </button>
-            <button
-              type="button"
-              onClick={handleExport}
-              disabled={isExporting || !canExport}
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-yellow-400 px-4 py-2 text-sm font-black text-slate-950 shadow-lg shadow-yellow-400/20 transition hover:bg-yellow-300 disabled:opacity-50 sm:flex-none"
-            >
-              {isExporting ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}
-              {isExporting ? "Gerando…" : "Baixar ZIP"}
-            </button>
+
+            {authorized ? (
+              // Botão de download — só aparece para quem tem token válido
+              <button
+                type="button"
+                onClick={handleExport}
+                disabled={isExporting || !canExport}
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-yellow-400 px-4 py-2 text-sm font-black text-slate-950 shadow-lg shadow-yellow-400/20 transition hover:bg-yellow-300 disabled:opacity-50 sm:flex-none"
+              >
+                {isExporting ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}
+                {isExporting ? "Gerando…" : "Baixar ZIP"}
+              </button>
+            ) : (
+              // Botão para abrir painel de token — aparece no modo teste
+              <button
+                type="button"
+                onClick={() => setShowTokenPanel((v) => !v)}
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-yellow-400 px-4 py-2 text-sm font-black text-slate-950 shadow-lg shadow-yellow-400/20 transition hover:bg-yellow-300 sm:flex-none"
+              >
+                <Unlock size={16} />
+                Já comprei — liberar download
+              </button>
+            )}
           </div>
         </div>
+
+        {/* Painel de token inline (só aparece quando usuário clica em "Já comprei") */}
+        {!authorized && showTokenPanel && (
+          <div className="mx-auto mt-3 max-w-7xl">
+            <form onSubmit={handleTokenSubmit} className="flex flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 shadow-md sm:flex-row sm:items-center">
+              <div className="flex flex-1 items-center gap-2">
+                <LockKeyhole size={16} className="shrink-0 text-slate-400" />
+                <input
+                  value={tokenInput}
+                  onChange={(e) => setTokenInput(e.target.value)}
+                  placeholder="Digite seu token (ex: ABCD-1234-WXYZ-5678)"
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm font-bold text-slate-900 outline-none ring-yellow-300 placeholder:font-normal placeholder:text-slate-400 focus:ring-2"
+                />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  type="submit"
+                  disabled={isValidating}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-yellow-400 px-4 py-2 text-sm font-black text-slate-950 transition hover:bg-yellow-300 disabled:opacity-50"
+                >
+                  {isValidating ? <Loader2 size={15} className="animate-spin" /> : <ShieldCheck size={15} />}
+                  {isValidating ? "Verificando..." : "Liberar"}
+                </button>
+                <a
+                  href={KIWIFY_CHECKOUT_URL}
+                  className="inline-flex items-center justify-center rounded-xl border border-slate-200 px-4 py-2 text-sm font-bold text-slate-600 transition hover:bg-slate-50"
+                >
+                  Comprar
+                </a>
+              </div>
+              {tokenError && (
+                <p className="w-full text-center text-xs font-bold text-red-500 sm:text-left">{tokenError}</p>
+              )}
+            </form>
+          </div>
+        )}
       </header>
 
       <main className="mx-auto grid w-full max-w-7xl flex-1 gap-4 p-3 lg:grid-cols-[390px_1fr] lg:p-5">
