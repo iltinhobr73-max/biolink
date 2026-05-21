@@ -1,208 +1,210 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  CheckCircle2,
-  Download,
-  Globe2,
-  LockKeyhole,
-  Palette,
-  Smartphone,
-  Sparkles,
-  Zap,
-} from "lucide-react";
+import { ArrowRight, CheckCircle2, Globe2, Instagram, MessageCircle, Music, ShoppingBag, Smartphone, Star, Youtube, Zap } from "lucide-react";
 
 const KIWIFY_CHECKOUT_URL = "/biopage-planos.html";
 
-const features = [
-  {
-    icon: Palette,
-    title: "Design pronto para vender",
-    desc: "Temas modernos, gradientes, botões profissionais e preview em tempo real.",
-  },
-  {
-    icon: Download,
-    title: "Exporta o site pronto",
-    desc: "O cliente baixa um ZIP com index.html e pode hospedar em Netlify, Vercel ou GitHub Pages.",
-  },
-  {
-    icon: LockKeyhole,
-    title: "Acesso por senha/token",
-    desc: "Você vende na Kiwify e libera uma senha simples para o comprador usar o editor.",
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile first",
-    desc: "A página gerada fica bonita no celular, que é onde a maioria das pessoas abre links de bio.",
-  },
+const benefits = [
+  { emoji: "⚡", title: "Pronto em minutos", desc: "Você me manda seus links e eu entrego sua página no ar. Sem complicação nenhuma." },
+  { emoji: "📱", title: "Bonito no celular", desc: "Sua página fica linda no celular, que é onde seus seguidores vão clicar." },
+  { emoji: "🎨", title: "Do seu jeito", desc: "Cores, foto, nome, bio e todos os seus links do jeito que você quiser." },
+  { emoji: "🔗", title: "Link único", desc: "Um único link para colocar no Instagram que leva para tudo que você tem." },
 ];
 
-const steps = [
-  "O cliente vê a landing page e entende que vai criar um Link na Bio profissional.",
-  "Ele clica em comprar e escolhe o plano que preferir.",
-  "Após o pagamento, ele recebe a senha/token de acesso ao editor.",
-  "Ele personaliza nome, foto, bio, links, cores e baixa o ZIP pronto.",
+const examples = [
+  { icon: Instagram, label: "Influencers" },
+  { icon: ShoppingBag, label: "Lojas" },
+  { icon: Music, label: "Músicos" },
+  { icon: Youtube, label: "Youtubers" },
+  { icon: MessageCircle, label: "Afiliados" },
+  { icon: Smartphone, label: "Freelancers" },
 ];
 
-const idealFor = ["Influencers", "Afiliados", "Social media", "Músicos", "Freelancers", "Lojas pequenas", "Criadores de conteúdo", "Infoprodutores"];
+const testimonials = [
+  { name: "Ana Paula", role: "Influencer", text: "Ficou incrível! Meus seguidores adoraram o visual novo.", stars: 5 },
+  { name: "Carlos Mendes", role: "Loja online", text: "Profissional demais. Valeu cada centavo, recomendo!", stars: 5 },
+  { name: "Juliana Costa", role: "Música", text: "Entregou super rápido e ficou exatamente como eu queria.", stars: 5 },
+];
 
 export default function Home() {
   return (
-    <main className="min-h-screen overflow-hidden bg-slate-950 text-white">
-      <section className="relative isolate px-5 py-8 sm:px-8 lg:px-12">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(250,204,21,.25),transparent_34%),radial-gradient(circle_at_75%_10%,rgba(59,130,246,.22),transparent_28%),linear-gradient(135deg,#020617,#0f172a_45%,#111827)]" />
+    <main className="min-h-screen overflow-hidden bg-[#080810] text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&family=Syne:wght@700;800&display=swap');
+        .font-display { font-family: 'Syne', sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #facc15, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .card-glow { box-shadow: 0 0 40px rgba(250,204,21,0.08); }
+        .btn-primary { background: linear-gradient(135deg, #facc15, #fb923c); color: #080810; font-weight: 900; transition: all 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(250,204,21,0.3); }
+      `}</style>
 
-        <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-2 text-sm font-black tracking-tight">
-            <span className="grid h-9 w-9 place-items-center rounded-2xl bg-yellow-400 text-slate-950 shadow-lg shadow-yellow-400/25">🔗</span>
-            BioPage Pro
-          </Link>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/builder"
-              className="hidden rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white/15 sm:inline-flex"
-            >
-              Testar editor
-            </Link>
-            <a
-              href={KIWIFY_CHECKOUT_URL}
-              className="rounded-full bg-yellow-400 px-4 py-2 text-sm font-black text-slate-950 transition hover:bg-yellow-300"
-            >
-              Comprar
+      {/* NAV */}
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-6">
+        <div className="flex items-center gap-2 font-display text-lg font-bold">
+          <span className="text-yellow-400">🔗</span> BioPage Pro
+        </div>
+        <a href={KIWIFY_CHECKOUT_URL} className="btn-primary rounded-full px-5 py-2.5 text-sm">
+          Quero o meu link →
+        </a>
+      </nav>
+
+      {/* HERO */}
+      <section className="relative px-5 py-20 text-center sm:py-28">
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-yellow-400/10 blur-[120px]" />
+        </div>
+
+        <div className="mx-auto max-w-4xl">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-yellow-400/20 bg-yellow-400/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-yellow-300">
+            ✨ Link na bio profissional · Apenas R$47
+          </div>
+
+          <h1 className="font-display text-5xl font-extrabold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
+            Seu link na bio<br />
+            <span className="gradient-text">pronto e no ar</span><br />
+            hoje mesmo.
+          </h1>
+
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/60">
+            Você me manda seus links — Instagram, WhatsApp, YouTube, loja — e eu entrego uma página profissional com seu link pronto para usar. <strong className="text-white">Sem precisar fazer nada.</strong>
+          </p>
+
+          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <a href={KIWIFY_CHECKOUT_URL} className="btn-primary inline-flex items-center gap-2 rounded-2xl px-8 py-4 text-base">
+              Quero meu link agora <ArrowRight size={18} />
             </a>
-          </div>
-        </nav>
-
-        <div className="mx-auto grid max-w-7xl items-center gap-12 py-20 lg:grid-cols-[1.05fr_.95fr] lg:py-28">
-          <div>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-yellow-300/30 bg-yellow-300/10 px-4 py-2 text-xs font-black uppercase tracking-[.22em] text-yellow-200">
-              A partir de R$ 19,90/mês · Acesso imediato
-            </div>
-            <h1 className="max-w-4xl text-5xl font-black leading-[.95] tracking-tight sm:text-6xl lg:text-7xl">
-              Crie um Link na Bio profissional em minutos.
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
-              Personalize sua página com seus links, escolha cores e temas, e baixe pronto para usar. Sem precisar saber programar.
-            </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <a
-                href={KIWIFY_CHECKOUT_URL}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-yellow-400 px-7 py-4 text-base font-black text-slate-950 shadow-xl shadow-yellow-400/20 transition hover:-translate-y-0.5 hover:bg-yellow-300"
-              >
-                Ver planos e preços <ArrowRight size={18} />
-              </a>
-              <Link
-                href="/builder"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/10 px-7 py-4 text-base font-black text-white transition hover:-translate-y-0.5 hover:bg-white/15"
-              >
-                Testar grátis
-              </Link>
-            </div>
-            <p className="mt-4 text-sm text-slate-500">
-              Pagamento seguro via Kiwify · Acesso imediato · Garantia de 7 dias
-            </p>
+            <Link href="/builder" className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-8 py-4 text-base font-bold text-white transition hover:bg-white/10">
+              Ver como funciona
+            </Link>
           </div>
 
-          <div className="relative mx-auto w-full max-w-sm">
-            <div className="absolute -inset-8 rounded-[3rem] bg-yellow-400/20 blur-3xl" />
-            <div className="relative rounded-[2.5rem] border border-white/10 bg-white/10 p-4 shadow-2xl backdrop-blur">
-              <div className="rounded-[2rem] bg-slate-950 p-4">
-                <div className="rounded-[1.6rem] bg-gradient-to-br from-[#0D2B4D] to-[#071A30] px-5 py-8 text-center shadow-2xl">
-                  <div className="mx-auto grid h-24 w-24 place-items-center rounded-full border-4 border-yellow-400 bg-yellow-400 text-4xl font-black text-slate-950 shadow-xl">B</div>
-                  <h2 className="mt-5 text-2xl font-black">BioPage Pro</h2>
-                  <p className="mx-auto mt-2 max-w-[260px] text-sm leading-6 text-white/70">Todos os seus links importantes em um só lugar.</p>
-                  <div className="mt-7 space-y-3">
-                    {["Instagram", "WhatsApp", "YouTube", "Minha loja"].map((item) => (
-                      <div key={item} className="rounded-2xl bg-yellow-400 px-4 py-4 text-sm font-black text-slate-950 shadow-lg shadow-black/20">
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                  <p className="mt-7 text-[10px] font-black uppercase tracking-[.25em] text-white/35">Preview real</p>
+          <p className="mt-4 text-sm text-white/30">Pagamento seguro · Entrega rápida · Satisfação garantida</p>
+        </div>
+
+        {/* MOCKUP */}
+        <div className="mx-auto mt-16 max-w-xs">
+          <div className="relative rounded-[2.5rem] border border-white/10 bg-white/5 p-3 shadow-2xl backdrop-blur card-glow">
+            <div className="rounded-[2rem] bg-gradient-to-br from-[#0D2B4D] to-[#071A30] px-5 py-8 text-center">
+              <div className="mx-auto grid h-20 w-20 place-items-center rounded-full border-4 border-yellow-400 bg-yellow-400 text-3xl font-black text-slate-950">B</div>
+              <h2 className="mt-4 font-display text-xl font-bold">Seu Nome Aqui</h2>
+              <p className="mt-1 text-xs text-white/50">Sua bio aqui ✨</p>
+              <div className="mt-5 space-y-2">
+                {["Instagram", "WhatsApp", "YouTube", "Minha loja"].map((item) => (
+                  <div key={item} className="rounded-xl bg-yellow-400 px-4 py-3 text-xs font-black text-slate-950">{item}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* COMO FUNCIONA */}
+      <section className="px-5 py-20">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-yellow-400">Como funciona</p>
+          <h2 className="font-display mt-3 text-4xl font-extrabold sm:text-5xl">Simples assim.</h2>
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-3">
+            {[
+              { n: "1", title: "Me chama", desc: "Entre em contato e me manda seus links e informações." },
+              { n: "2", title: "Eu crio", desc: "Monto sua página personalizada com seu visual e todos os seus links." },
+              { n: "3", title: "Você usa", desc: "Recebe o link pronto e já coloca no seu Instagram." },
+            ].map((step) => (
+              <div key={step.n} className="rounded-3xl border border-white/8 bg-white/5 p-6 text-left">
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-yellow-400 font-display text-lg font-extrabold text-slate-950">
+                  {step.n}
+                </div>
+                <h3 className="font-display text-xl font-bold">{step.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-white/50">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* BENEFICIOS */}
+      <section className="px-5 py-20">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center">
+            <p className="text-xs font-bold uppercase tracking-widest text-yellow-400">O que você recebe</p>
+            <h2 className="font-display mt-3 text-4xl font-extrabold sm:text-5xl">Tudo incluso no R$47.</h2>
+          </div>
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {benefits.map((b) => (
+              <div key={b.title} className="rounded-3xl border border-white/8 bg-white/5 p-6 card-glow">
+                <div className="text-3xl">{b.emoji}</div>
+                <h3 className="font-display mt-4 text-lg font-bold">{b.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-white/50">{b.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PARA QUEM */}
+      <section className="px-5 py-20">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-yellow-400">Para quem é?</p>
+          <h2 className="font-display mt-3 text-4xl font-extrabold sm:text-5xl">Para quem quer<br />parecer profissional.</h2>
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            {examples.map((e) => (
+              <div key={e.label} className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-bold text-white/80">
+                <e.icon size={15} className="text-yellow-400" />
+                {e.label}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* DEPOIMENTOS */}
+      <section className="px-5 py-20">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center">
+            <p className="text-xs font-bold uppercase tracking-widest text-yellow-400">Depoimentos</p>
+            <h2 className="font-display mt-3 text-4xl font-extrabold sm:text-5xl">Quem já tem, amou.</h2>
+          </div>
+          <div className="mt-12 grid gap-4 sm:grid-cols-3">
+            {testimonials.map((t) => (
+              <div key={t.name} className="rounded-3xl border border-white/8 bg-white/5 p-6">
+                <div className="flex gap-1">
+                  {Array.from({ length: t.stars }).map((_, i) => (
+                    <Star key={i} size={14} className="fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <p className="mt-4 text-sm leading-6 text-white/70">"{t.text}"</p>
+                <div className="mt-4 border-t border-white/8 pt-4">
+                  <p className="text-sm font-bold">{t.name}</p>
+                  <p className="text-xs text-white/40">{t.role}</p>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white px-5 py-20 text-slate-950 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-3xl">
-            <p className="text-sm font-black uppercase tracking-[.25em] text-yellow-600">O que você está comprando</p>
-            <h2 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">Seu link na bio profissional, do jeito certo.</h2>
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              Você não compra "código". Você compra facilidade: entra no editor, coloca os próprios links, personaliza o visual e baixa uma página pronta.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {features.map((feature) => (
-              <div key={feature.title} className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
-                <feature.icon className="text-yellow-500" size={30} />
-                <h3 className="mt-5 text-lg font-black">{feature.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{feature.desc}</p>
-              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-slate-50 px-5 py-20 text-slate-950 sm:px-8 lg:px-12">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[.9fr_1.1fr]">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-yellow-100 px-4 py-2 text-xs font-black uppercase tracking-[.2em] text-yellow-700">
-              <Sparkles size={15} /> Como funciona
-            </div>
-            <h2 className="mt-5 text-4xl font-black tracking-tight sm:text-5xl">Simples assim.</h2>
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              Em menos de 5 minutos você já tem seu link na bio profissional no ar.
-            </p>
-          </div>
-          <div className="space-y-4">
-            {steps.map((step, index) => (
-              <div key={step} className="flex gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-slate-950 text-sm font-black text-yellow-300">{index + 1}</div>
-                <p className="pt-2 text-base font-bold leading-7 text-slate-700">{step}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white px-5 py-20 text-slate-950 sm:px-8 lg:px-12">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
-          <div className="rounded-[2rem] bg-slate-950 p-8 text-white shadow-2xl">
-            <Globe2 className="text-yellow-300" size={36} />
-            <h2 className="mt-5 text-3xl font-black">Para quem é?</h2>
-            <div className="mt-8 flex flex-wrap gap-3">
-              {idealFor.map((item) => (
-                <span key={item} className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-bold text-white/80">
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-[2rem] border border-yellow-200 bg-yellow-50 p-8 shadow-sm">
-            <CheckCircle2 className="text-yellow-600" size={36} />
-            <h2 className="mt-5 text-3xl font-black">Pronto para usar</h2>
-            <p className="mt-4 text-base leading-8 text-slate-700">
-              Acesso imediato após a compra. Você recebe um token por e-mail e já pode começar a criar sua página.
-            </p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link href="/builder" className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-6 py-4 text-sm font-black text-white transition hover:-translate-y-0.5">
-                Testar grátis <Zap size={16} />
-              </Link>
-              <a href={KIWIFY_CHECKOUT_URL} className="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-6 py-4 text-sm font-black text-slate-950 transition hover:-translate-y-0.5">
-                Ver planos
-              </a>
-            </div>
+      {/* CTA FINAL */}
+      <section className="px-5 py-20">
+        <div className="mx-auto max-w-2xl rounded-[2rem] border border-yellow-400/20 bg-yellow-400/5 p-10 text-center card-glow">
+          <div className="text-4xl">🔗</div>
+          <h2 className="font-display mt-4 text-4xl font-extrabold sm:text-5xl">
+            Seu link na bio<br />por apenas <span className="gradient-text">R$47</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-md text-base leading-7 text-white/60">
+            Entrega rápida. Sem complicação. Você só precisa me mandar seus links.
+          </p>
+          <a href={KIWIFY_CHECKOUT_URL} className="btn-primary mt-8 inline-flex items-center gap-2 rounded-2xl px-8 py-4 text-base">
+            Quero meu link agora <ArrowRight size={18} />
+          </a>
+          <div className="mt-6 flex items-center justify-center gap-6 text-xs text-white/30">
+            <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-green-400" /> Pagamento seguro</span>
+            <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-green-400" /> Entrega rápida</span>
+            <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-green-400" /> Garantia de 7 dias</span>
           </div>
         </div>
       </section>
 
-      <footer className="border-t border-white/10 bg-slate-950 px-5 py-10 text-center text-sm font-semibold text-slate-500">
-        BioPage Pro — Crie seu link na bio profissional e conquiste mais clientes.
+      <footer className="border-t border-white/5 px-5 py-8 text-center text-sm text-white/20">
+        BioPage Pro — Seu link na bio profissional, pronto e no ar hoje mesmo.
       </footer>
     </main>
   );
