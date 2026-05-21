@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Instagram, MessageCircle, Music, ShoppingBag, Smartphone, Star, Youtube, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle2, Instagram, MessageCircle, Music, ShoppingBag, Smartphone, Youtube, Zap } from "lucide-react";
 
 const WHATSAPP_URL = "https://wa.me/5585992717070?text=Oi!%20Vi%20o%20BioPage%20Pro%20e%20me%20interessei.%20Quero%20saber%20mais!";
 
@@ -19,11 +19,6 @@ const examples = [
   { icon: Smartphone, label: "Freelancers" },
 ];
 
-const testimonials = [
-  { name: "Ana Paula", role: "Influencer", text: "Ficou incrível! Meus seguidores adoraram o visual novo.", stars: 5 },
-  { name: "Carlos Mendes", role: "Loja online", text: "Profissional demais. Valeu cada centavo, recomendo!", stars: 5 },
-  { name: "Juliana Costa", role: "Música", text: "Entregou super rápido e ficou exatamente como eu queria.", stars: 5 },
-];
 
 export default function Home() {
   return (
@@ -164,32 +159,6 @@ export default function Home() {
               <div key={e.label} className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-bold text-white/80">
                 <e.icon size={15} className="text-yellow-400" />
                 {e.label}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* DEPOIMENTOS */}
-      <section className="px-5 py-20">
-        <div className="mx-auto max-w-5xl">
-          <div className="text-center">
-            <p className="text-xs font-bold uppercase tracking-widest text-yellow-400">Depoimentos</p>
-            <h2 className="font-display mt-3 text-4xl font-extrabold sm:text-5xl">Quem já tem, amou.</h2>
-          </div>
-          <div className="mt-12 grid gap-4 sm:grid-cols-3">
-            {testimonials.map((t) => (
-              <div key={t.name} className="rounded-3xl border border-white/8 bg-white/5 p-6">
-                <div className="flex gap-1">
-                  {Array.from({ length: t.stars }).map((_, i) => (
-                    <Star key={i} size={14} className="fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="mt-4 text-sm leading-6 text-white/70">"{t.text}"</p>
-                <div className="mt-4 border-t border-white/8 pt-4">
-                  <p className="text-sm font-bold">{t.name}</p>
-                  <p className="text-xs text-white/40">{t.role}</p>
-                </div>
               </div>
             ))}
           </div>
