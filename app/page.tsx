@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Globe2, Instagram, MessageCircle, Music, ShoppingBag, Smartphone, Star, Youtube, Zap } from "lucide-react";
 
-const KIWIFY_CHECKOUT_URL = "/biopage-planos.html";
+const WHATSAPP_URL = "https://wa.me/5585992717070?text=Ol%C3%A1!%20Quero%20meu%20link%20na%20bio%20profissional%20%F0%9F%94%97";
 
 const benefits = [
   { emoji: "⚡", title: "Pronto em minutos", desc: "Você me manda seus links e eu entrego sua página no ar. Sem complicação nenhuma." },
@@ -42,7 +42,7 @@ export default function Home() {
         <div className="flex items-center gap-2 font-display text-lg font-bold">
           <span className="text-yellow-400">🔗</span> BioPage Pro
         </div>
-        <a href={KIWIFY_CHECKOUT_URL} className="btn-primary rounded-full px-5 py-2.5 text-sm">
+        <a href={WHATSAPP_URL} className="btn-primary rounded-full px-5 py-2.5 text-sm">
           Quero o meu link →
         </a>
       </nav>
@@ -69,7 +69,7 @@ export default function Home() {
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <a href={KIWIFY_CHECKOUT_URL} className="btn-primary inline-flex items-center gap-2 rounded-2xl px-8 py-4 text-base">
+            <a href={WHATSAPP_URL} className="btn-primary inline-flex items-center gap-2 rounded-2xl px-8 py-4 text-base">
               Quero meu link agora <ArrowRight size={18} />
             </a>
             <Link href="/builder" className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-8 py-4 text-base font-bold text-white transition hover:bg-white/10">
@@ -192,7 +192,7 @@ export default function Home() {
           <p className="mx-auto mt-4 max-w-md text-base leading-7 text-white/60">
             Entrega rápida. Sem complicação. Você só precisa me mandar seus links.
           </p>
-          <a href={KIWIFY_CHECKOUT_URL} className="btn-primary mt-8 inline-flex items-center gap-2 rounded-2xl px-8 py-4 text-base">
+          <a href={WHATSAPP_URL} className="btn-primary mt-8 inline-flex items-center gap-2 rounded-2xl px-8 py-4 text-base">
             Quero meu link agora <ArrowRight size={18} />
           </a>
           <div className="mt-6 flex items-center justify-center gap-6 text-xs text-white/30">
