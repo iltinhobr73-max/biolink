@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@upstash/redis";
+import { Redis } from "@upstash/redis";
 import { Resend } from "resend";
 
-const redis = createClient({
+const redis = new Redis({
   url: process.env.KV_REST_API_URL!,
   token: process.env.KV_REST_API_TOKEN!,
 });
@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const webhookSecret = process.env.KIWIFY_WEBHOOK_SECRET;
 
-    // Verifica o token da Kiwify
     const kiwifyToken = req.nextUrl.searchParams.get("token") || body.token;
     if (webhookSecret && kiwifyToken !== webhookSecret) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -38,12 +37,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No email" }, { status: 400 });
     }
 
-    // Compra aprovada ou assinatura renovada
     if (event === "paid" || event === "order_approved" || event === "subscription_renewed") {
       const token = generateToken();
-      const expiresAt = Date.now() + 31 * 24 * 60 * 60 * 1000; // 31 dias
+      const expiresAt = Date.now() + 31 * 24 * 60 * 60 * 1000;
 
-      // Salva token no Redis
       await redis.set(`token:${token}`, JSON.stringify({
         email,
         name,
@@ -51,13 +48,11 @@ export async function POST(req: NextRequest) {
         createdAt: Date.now(),
       }), { ex: 31 * 24 * 60 * 60 });
 
-      // Salva email -> token (para renovação)
       await redis.set(`email:${email}`, token, { ex: 31 * 24 * 60 * 60 });
 
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://biolink-nu-seven.vercel.app";
       const builderUrl = `${siteUrl}/builder?token=${token}`;
 
-      // Envia e-mail
       await resend.emails.send({
         from: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
         to: email,
@@ -90,7 +85,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, token });
     }
 
-    // Assinatura cancelada ou reembolso
     if (event === "subscription_canceled" || event === "refunded") {
       const savedToken = await redis.get(`email:${email}`);
       if (savedToken) {
